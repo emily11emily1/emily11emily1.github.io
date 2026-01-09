@@ -1,0 +1,20 @@
+{
+  "name": "italian-restaurant",
+  "version": "1.0.0",
+  "description": "这是一个为现代意式餐厅设计的响应式单页网站（SPA）模板。它旨在提供优雅的用户体验，同时满足餐饮业的核心业务需求。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "body-parser": "^2.2.2",
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "multer": "^2.0.2",
+    "mysql2": "^3.16.0"
+  }
+}

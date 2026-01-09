@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>后台管理系统 - La Dolce Vita</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ddd;
+        }
+        .admin-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+        }
+        .admin-tab.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        .admin-section {
+            display: none;
+        }
+        .admin-section.active {
+            display: block;
+        }
+        /* Modal Styles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5); 
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%; 
+            max-width: 600px;
+            border-radius: 8px;
+            position: relative;
+        }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover,
+        .close-modal:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .menu-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        .menu-list-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 15px;
+        }
+        .menu-list-info {
+            flex: 1;
+        }
+        .menu-list-actions button {
+            margin-left: 5px;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        .btn-edit { background-color: #ffc107; color: #000; border: none; border-radius: 4px; cursor: pointer; }
+        .btn-delete { background-color: #dc3545; color: #fff; border: none; border-radius: 4px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">La Dolce Vita</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="index.html#about" class="nav-link">关于我们</a></li>
+                <li class="nav-item"><a href="index.html#menu" class="nav-link">菜单</a></li>
+                <li class="nav-item"><a href="index.html#reservation" class="nav-link">预订</a></li>
+                <li class="nav-item"><a href="check-reservation.html" class="nav-link active">管理后台</a></li>
+                <li class="nav-item"><a href="index.html#contact" class="nav-link">联系方式</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 页面标题 -->
+    <section class="section bg-light" style="padding-top: 120px;">
+        <div class="container">
+            <h1 class="section-title">后台管理系统</h1>
+            
+            <!-- 登录面板 -->
+            <div id="login-panel" class="check-reservation-container" style="max-width: 400px; margin: 0 auto;">
+                <p style="text-align: center; margin-bottom: 20px;">请登录以访问管理后台</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">用户名</label>
+                        <input type="text" id="username" class="form-control" required style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">密码</label>
+                        <input type="password" id="password" class="form-control" required style="width: 100%; padding: 10px; margin-bottom: 20px;">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">登录</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- 管理面板 (默认隐藏) -->
+            <div id="admin-panel" class="check-reservation-container" style="display: none; max-width: 900px; margin: 0 auto;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="margin: 0;">欢迎回来, Admin</h3>
+                    <button id="logout-btn" class="btn" style="background: #666; color: white; padding: 5px 15px; font-size: 0.9rem;">退出登录</button>
+                </div>
+
+                <!-- Tabs -->
+                <div class="admin-tabs">
+                    <div class="admin-tab active" data-target="reservations-section">预定管理</div>
+                    <div class="admin-tab" data-target="menu-section">菜单管理</div>
+                </div>
+
+                <!-- 预定管理 Section -->
+                <div id="reservations-section" class="admin-section active">
+                    <div class="form-group" style="margin-bottom: 30px;">
+                        <div style="display: flex; gap: 10px;">
+                            <input type="tel" id="search-phone" placeholder="输入手机号筛选 (留空显示所有)" style="flex: 1; padding: 10px;">
+                            <button id="search-btn" class="btn btn-primary" style="padding: 10px 20px;">搜索</button>
+                        </div>
+                    </div>
+                    
+                    <div id="reservation-result" class="reservation-result">
+                        <p style="text-align: center; color: #666;">请点击搜索加载数据</p>
+                    </div>
+                </div>
+
+                <!-- 菜单管理 Section -->
+                <div id="menu-section" class="admin-section">
+                    <div style="text-align: right; margin-bottom: 20px;">
+                        <button id="add-menu-btn" class="btn btn-primary"><i class="fas fa-plus"></i> 新增菜品</button>
+                    </div>
+                    <div id="menu-list-container">
+                        <!-- 菜单列表加载于此 -->
+                        <p style="text-align: center;">加载中...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 菜单编辑模态框 -->
+    <div id="menu-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title" style="margin-bottom: 20px;">新增菜品</h2>
+            <form id="menu-form">
+                <input type="hidden" id="menu-id">
+                <div class="form-group">
+                    <label for="menu-name">菜品名称 *</label>
+                    <input type="text" id="menu-name" class="form-control" required style="width: 100%; padding: 8px;">
+                </div>
+                <div class="form-group">
+                    <label for="menu-desc">描述</label>
+                    <textarea id="menu-desc" class="form-control" rows="3" style="width: 100%; padding: 8px;"></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label for="menu-price">价格 (¥) *</label>
+                        <input type="number" id="menu-price" step="0.01" class="form-control" required style="width: 100%; padding: 8px;">
+                    </div>
+                    <div class="form-group">
+                        <label for="menu-category">分类 *</label>
+                        <select id="menu-category" class="form-control" required style="width: 100%; padding: 8px;">
+                            <option value="starter">前菜 (Starter)</option>
+                            <option value="main">主菜 (Main)</option>
+                            <option value="pizza">披萨 (Pizza)</option>
+                            <option value="dessert">甜点 (Dessert)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>图片来源</label>
+                    <div style="margin-bottom: 10px;">
+                        <label style="display: inline-flex; align-items: center; margin-right: 15px;">
+                            <input type="radio" name="image-source-type" id="source-type-url" value="url" checked> URL 链接
+                        </label>
+                        <label style="display: inline-flex; align-items: center;">
+                            <input type="radio" name="image-source-type" id="source-type-file" value="file"> 本地上传
+                        </label>
+                    </div>
+                    
+                    <div id="image-input-url">
+                        <input type="url" id="menu-image" class="form-control" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 8px;">
+                    </div>
+                    
+                    <div id="image-input-file" style="display: none;">
+                        <input type="file" id="menu-image-file" class="form-control" accept="image/*" style="width: 100%; padding: 8px;">
+                    </div>
+                </div>
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="menu-featured">
+                    <label for="menu-featured" style="margin: 0;">设为特色菜品</label>
+                </div>
+                <div class="form-group" style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 La Dolce Vita. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+    <script src="js/reservation-check.js"></script>
+</body>
+</html>

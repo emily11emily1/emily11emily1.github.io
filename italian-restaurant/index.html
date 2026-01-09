@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Dolce Vita | 意式餐厅</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="#" class="nav-logo">La Dolce Vita</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="#home" class="nav-link">主页</a></li>
+                <li class="nav-item"><a href="#about" class="nav-link">关于我们</a></li>
+                <li class="nav-item"><a href="#menu" class="nav-link">菜单</a></li>
+                <li class="nav-item"><a href="#reservation" class="nav-link">预订</a></li>
+                <li class="nav-item"><a href="check-reservation.html" class="nav-link">查询预定</a></li>
+                <li class="nav-item"><a href="#contact" class="nav-link">联系方式</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero 区域 -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>正宗意式风味</h1>
+            <p>体验来自托斯卡纳的味觉之旅</p>
+            <a href="#reservation" class="btn btn-primary">立即预订</a>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">我们的故事</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>La Dolce Vita 致力于为您带来最地道的意大利美食体验。我们的主厨来自罗马，秉承传统烹饪技艺，选用最新鲜的当季食材。</p>
+                    <p>无论是手工制作的意大利面，还是精心烘焙的披萨，每一道菜都蕴含着我们对美食的热爱与执着。</p>
+                </div>
+                <div class="about-image">
+                    <!-- 占位图 -->
+                    <div class="img-placeholder"><i class="fas fa-utensils"></i></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 在线菜单 -->
+    <section id="menu" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title">精选菜单</h2>
+            <div class="menu-tabs">
+                <button class="tab-btn active" data-category="all">全部</button>
+                <button class="tab-btn" data-category="starter">前菜</button>
+                <button class="tab-btn" data-category="main">主菜</button>
+                <button class="tab-btn" data-category="pizza">披萨</button>
+                <button class="tab-btn" data-category="dessert">甜点</button>
+            </div>
+            <div class="menu-items" id="menu-container">
+                <!-- 菜单项将通过JS动态生成 -->
+                <div class="loading">正在加载菜单...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 在线预订 -->
+    <section id="reservation" class="section">
+        <div class="container">
+            <h2 class="section-title">在线预订</h2>
+            <div class="reservation-form-container">
+                <form id="reservation-form" class="reservation-form">
+                    <div class="form-group">
+                        <label for="name">姓名</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">电话</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">日期</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">时间</label>
+                        <select id="time" name="time" required>
+                            <option value="">请选择时间</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                            <option value="18:30">18:30</option>
+                            <option value="19:00">19:00</option>
+                            <option value="19:30">19:30</option>
+                            <option value="20:00">20:00</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">人数</label>
+                        <input type="number" id="guests" name="guests" min="1" max="20" required>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="message">特殊需求 (可选)</label>
+                        <textarea id="message" name="message" rows="3"></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn btn-primary btn-block">提交预订</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系方式与地图 -->
+    <section id="contact" class="section bg-dark text-white">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>联系我们</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> 厦门市思明区湖滨北路16号</p>
+                    <p><i class="fas fa-phone"></i> (0592) 1234-5678</p>
+                    <p><i class="fas fa-envelope"></i> info@ladolcevita.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                    </div>
+                    <div class="opening-hours">
+                        <h4>营业时间</h4>
+                        <p>周二至周日: 11:30 - 22:00</p>
+                        <p>周一: 休息</p>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <!-- 地图 iframe 占位 -->
+                    <div class="map-placeholder">
+                        <i class="fas fa-map-marked-alt fa-3x"></i>
+                        <p>Google Maps / Baidu Maps Embed</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 La Dolce Vita. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
